@@ -1,14 +1,18 @@
 import React from "react";
 import classes from './Header.module.css'
 import HeaderCartButton from "./HeaderCartButton";
-const Header=()=>
+const Header=(prop)=>
 {
+    const cartHandler=()=>
+    {
+        prop.openCart()
+    }
     return(<React.Fragment>
         <header className={classes.header} >
             <span>HOME</span>
             <span>STORE</span>
             <span>STORE</span>
-            <div> <HeaderCartButton></HeaderCartButton></div>
+            <div> <HeaderCartButton onClick={cartHandler}></HeaderCartButton></div>
            
         </header>
         <div className={classes.heading}>

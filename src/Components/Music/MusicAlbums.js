@@ -1,19 +1,19 @@
 import React from "react";
-import './MusicAlbums.css'
+import classes from './MusicAlbums.module.css'
 import Button from "../Button";
 const MusicAlbums=(prop)=>
 {
-    return( <div className="music-content">
+    return( <div className={classes.musicContent}>
     <div>
       <h3>{prop.items.title}</h3>
-      <div className= "image-container" >
-        <img className= "images" src={prop.items.imageUrl} alt="Music Album"></img>
+      <div className= {classes.imageContainer} >
+        <img className= {classes.images} src={prop.items.imageUrl} alt="Music Album"></img>
       </div>
-      <div className=  "prod-details">
+      <div className=  {classes.prodDetails}>
         <span>$
         <span>{prop.items.price}</span>
         </span>
-        <Button className="shop-item-button">ADD TO CART</Button>
+        <Button className={classes.addButton}>ADD TO CART</Button>
       </div>
       
     </div>

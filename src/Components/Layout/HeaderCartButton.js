@@ -2,9 +2,9 @@ import React from "react";
 import "./HeaderCartButton.css"
 
 
-const HeaderCartButton = () => {
+const HeaderCartButton = (prop) => {
   return (<React.Fragment>
-    <button className="button">
+    <button  onClick={prop.onClick} className="button">
       <span>Cart</span>
       <span>0</span>
     </button>
