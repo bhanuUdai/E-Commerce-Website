@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     /* max-height: 50rem; */
-    overflow: auto;
+    overflow-y: auto;
     color: red;
   }
 
@@ -54,4 +54,18 @@
   .cancel-button
   {
     right:0
+  }
+
+  .cart-div{
+    overflow-y: auto;
+  }
+  
+
+  .total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 1rem 0;
   }

@@ -2,6 +2,7 @@ import React ,{useState} from "react";
 import AvailableMusicAlbums from'./Components/Music/AvailableMusicAlbums'
 import Header from "./Components/Layout/Header";
 import Cart from "./Components/Cart/Cart";
+import ContextProvider from "./Components/Store/ContextProvider";
 function App() {
  
   const[initCart,setInitCart]=useState(false)
@@ -17,11 +18,11 @@ function App() {
   }
 
   return (
-    <div>
+    <ContextProvider>
      {initCart&& <Cart closeCart={closeCartButtonHandler}></Cart>}
       <Header openCart={openCartHandler} />
       <AvailableMusicAlbums/>
-    </div>
+      </ContextProvider>
   );
 }
 

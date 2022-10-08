@@ -1,68 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import Modal from "../UI/Modal";
 import "./Cart.css";
 import Button from "../Button";
+import CartContext from "../Store/cart-context";
 const Cart = (prop) => {
-  const cartElements = [
-    {
-      title: "Colors",
 
-      price: 100,
 
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
 
-      quantity: 2,
-    },
+const cartctx=useContext(CartContext)
 
-    {
-      title: "Black and white Colors",
+const netAmount=cartctx.totalAmount
 
-      price: 50,
-
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
-
-      quantity: 3,
-    },
-
-    {
-      title: "Yellow and Black Colors",
-
-      price: 70,
-
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
-
-      quantity: 1,
-    },
-  ];
-
-  const [items, setItems] = useState(cartElements);
-
-  let arr = [...items];
-  let hasItem = false;
-  const decreasingQuantity = (title) => {
-    arr.forEach((data, index) => {
-      if (data.title === title) {
-        arr[index].quantity = Number(arr[index].quantity) - 1;
-        hasItem = true;
-      }
-
-      if (arr[index].quantity === 0) {
-        arr.splice(index, 1);
-        hasItem = true;
-      }
-    });
-
-    if (hasItem === true) {
-      setItems(arr);
-    }
-  };
+  const decreasingQuantity=(title)=>
+  {
+    cartctx.removeItem(title)
+  }
 
   const cartItems = (
     <ul className="cart-items">
-      {items.map((item) => {
+      {cartctx.items.map((item) => {
         return (
           <li key={item.title}>
             <img src={item.imageUrl} alt="ItemImage"></img>
@@ -93,7 +49,11 @@ const Cart = (prop) => {
       <Button className={"cancel-button"} onClick={closeCartHandler}>
         X
       </Button>
-      <div>{cartItems}</div>
+      <main>{cartItems}</main>
+      <div className='total'>
+          <span>Total Amount</span>
+          <span>{`$${netAmount}`}</span>
+        </div>
     </Modal>
   );
 };
