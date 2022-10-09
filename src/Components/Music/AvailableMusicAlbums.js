@@ -49,7 +49,7 @@ const AvailableMusicAlbums = (prop) => {
             <h2>Music</h2>
         </section>
     {productsArr.map((item) => {
-      return <MusicAlbums items={item}></MusicAlbums>;
+      return <MusicAlbums key={item.title} items={item}></MusicAlbums>;
     })}
   </main>
   );

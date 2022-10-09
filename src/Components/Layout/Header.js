@@ -11,7 +11,8 @@ const Header=(prop)=>
     return(<React.Fragment>
         <header className={classes.header} >
             <NavLink activeClassName={classes.active} to='./home'>HOME</NavLink>
-            <span>STORE</span>
+            {/* <span>STORE</span> */}
+            <NavLink  activeClassName={classes.active} to='/store'>STORE</NavLink>
             <NavLink activeClassName={classes.active} to='/about' >ABOUT</NavLink>
             <div> <HeaderCartButton onClick={cartHandler}></HeaderCartButton></div>
            
