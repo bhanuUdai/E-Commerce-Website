@@ -45,6 +45,9 @@ const AvailableMusicAlbums = (prop) => {
 
   return (
     <main  className="music-content">
+       <section className='music container'>
+            <h2>Music</h2>
+        </section>
     {productsArr.map((item) => {
       return <MusicAlbums items={item}></MusicAlbums>;
     })}

@@ -35,3 +35,17 @@ width:100%
     padding: 20px;
     font-size: 20px;
 }
+
+.header a:hover,
+  .header a:active,
+  .header a.active {
+    color: #95bcf0;
+    padding-bottom: 0.25rem;
+    border-bottom: 4px solid #95bcf0;
+  }
+
+  .header a{
+    color: #95bcf0;
+    text-decoration: none;
+    margin: 260px;
+  }

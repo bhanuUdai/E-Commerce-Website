@@ -12,4 +12,5 @@
     padding:20px 30px;
     z-index: 99;
     overflow-y: auto;
+    min-width: 60%;
 }

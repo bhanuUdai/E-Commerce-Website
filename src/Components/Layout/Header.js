@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import classes from './Header.module.css'
 import HeaderCartButton from "./HeaderCartButton";
 const Header=(prop)=>
@@ -9,18 +10,18 @@ const Header=(prop)=>
     }
     return(<React.Fragment>
         <header className={classes.header} >
-            <span>HOME</span>
+            <NavLink activeClassName={classes.active} to='./home'>HOME</NavLink>
             <span>STORE</span>
-            <span>STORE</span>
+            <NavLink activeClassName={classes.active} to='/about' >ABOUT</NavLink>
             <div> <HeaderCartButton onClick={cartHandler}></HeaderCartButton></div>
            
         </header>
         <div className={classes.heading}>
             <h1>The Generics</h1>
         </div>
-        <section className={classes.music}>
+        {/* <section className={classes.music}>
             <h2>Music</h2>
-        </section>
+        </section> */}
         
         </React.Fragment>
     )
