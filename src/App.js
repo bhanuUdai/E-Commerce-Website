@@ -4,10 +4,12 @@ import Header from "./Components/Layout/Header";
 import Cart from "./Components/Cart/Cart";
 import ContextProvider from "./Components/Store/ContextProvider";
 import About from "./Components/pages/About";
-import {Route, Redirect} from "react-router-dom";
+import {Route} from "react-router-dom";
 import Footer from "./Components/Layout/Footer";
 import Home from "./Components/pages/Home";
-function App() {
+import Contact from "./Components/pages/Contact.js/Contact";
+
+function App(prop) {
  
   const[initCart,setInitCart]=useState(false)
 
@@ -23,15 +25,13 @@ function App() {
 
   return (
     <ContextProvider>
+       <Route  path="/" exact><Home/></Route>
      <Route  path='/store'  >
      {initCart&& <Cart closeCart={closeCartButtonHandler}></Cart>}
       <Header openCart={openCartHandler} />
       <AvailableMusicAlbums/><Footer/></Route>
-      <Route  path="/home"><Home/></Route>
-      <Route path='/about'><About/></Route>
-      <Route path="/" exact>                                 
-          <Redirect to="/home" />
-        </Route>
+      <Route  path='/about'><About/></Route>
+      <Route path='/contact'><Contact></Contact></Route>
       </ContextProvider>
   );
 }
