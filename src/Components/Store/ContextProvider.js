@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import CartContext from "./cart-context";
 const ContextProvider = (prop) => {
   const [cartItem, setCartItem] = useState([]);
+  const [getProductDetails,setProductDetails]=useState('')
+
 
   const addToCartHAndler = (item) => {
     console.log(item);
@@ -51,6 +53,16 @@ const ContextProvider = (prop) => {
   },0)
 
 
+const productDetailsHandler=(data)=>
+{
+  console.log(data)
+   setProductDetails(data)
+ 
+}
+
+console.log(getProductDetails,"getting.....")
+
+
   return (
     <CartContext.Provider
       value={{
@@ -58,6 +70,8 @@ const ContextProvider = (prop) => {
         totalAmount:amount,
         addToCart: addToCartHAndler,
         removeItem: removeCartHandler,
+        productDetails:productDetailsHandler,
+        productDetailObj:getProductDetails
       }}
     >
       {prop.children}
