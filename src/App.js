@@ -29,9 +29,10 @@ function App(prop) {
       <Header openCart={openCartHandler} />
       <Switch>
        <Route  path="/" exact><Home/></Route>
-    {cartctx.userIsLogin && <Route  path='/store'  >
+     <Route  path='/store'  >
      {initCart && <Cart closeCart={closeCartButtonHandler}></Cart>}
-      <AvailableMusicAlbums/></Route>}
+     {cartctx.userIsLogin && <AvailableMusicAlbums/>}
+     {!cartctx.userIsLogin &&<Redirect to='/auth' />}</Route>
       <Route  path='/about'><About/></Route>
      { !cartctx.userIsLogin && <Route path='/auth'><AuthForm/></Route>}
       <Route path='/contact'><Contact></Contact></Route>

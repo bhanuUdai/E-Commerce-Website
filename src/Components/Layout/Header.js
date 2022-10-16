@@ -36,9 +36,9 @@ const Header = (prop) => {
         <NavLink activeClassName={classes.active} to="/" exact>
           HOME
         </NavLink>
-        {cartctx.userIsLogin && <NavLink activeClassName={classes.active} to="/store">
+       <NavLink activeClassName={classes.active} to="/store">
           STORE
-        </NavLink>}
+        </NavLink>
         <NavLink activeClassName={classes.active} to="/about">
           ABOUT
         </NavLink>
