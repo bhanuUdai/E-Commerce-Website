@@ -7,6 +7,7 @@ const AuthForm =()=>
 {
 
     const [isLogin,setIslogin]=useState(true)
+    const[sendingRqst,setSendingRqst]=useState(false)
     const enteredMailRef=useRef();
     const enteredPasswordRef=useRef();
     const cartctx=useContext(CartContext)
@@ -22,7 +23,7 @@ const AuthForm =()=>
 
         const enteredMail=enteredMailRef.current.value;
         const enteredPass=enteredPasswordRef.current.value
-
+        setSendingRqst(true)
         if(isLogin)
         {
             let res= await fetch("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCSqjiKRacE_Kq1VBbV-oRPsKmxAsCULHY",{
@@ -78,6 +79,9 @@ const AuthForm =()=>
                 alert(err)
             }
         }
+        enteredMailRef.current.value='';
+        enteredPasswordRef.current.value='';
+        setSendingRqst(false);
     }
 
 
@@ -89,7 +93,8 @@ const AuthForm =()=>
             <input ref={enteredMailRef} type='email' id="mail"></input>
             <label htmlFor="pass">Password</label>
             <input ref={enteredPasswordRef} type='password' id="pass"></input>
-            <Button onClick={submitHandler} className={classes.button}>{ isLogin? "Login" : "SignUp"}</Button>
+            {!sendingRqst && <Button onClick={submitHandler} className={classes.button}>{ isLogin? "Login" : "SignUp"}</Button>}
+            {sendingRqst && <h3>Sending request...</h3>}
             <button onClick={switchAuthHandler} className={classes.toggleButton}>{isLogin?" Create new account" : "Login to existing acccount"}</button>
         </form>
     </React.Fragment>)
