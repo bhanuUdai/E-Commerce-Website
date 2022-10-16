@@ -1,8 +1,6 @@
 import React from "react";
 import Tours from "./Tours";
 import classes from "./Home.module.css";
-import Header from "../Layout/Header";
-import Footer from "../Layout/Footer";
 const Home = () => {
   let concerts = [
     {
@@ -39,14 +37,12 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <Header />
       <section className={classes.container}>
         <h2>TOURS</h2>
         {concerts.map((data) => {
           return <Tours key={data.date} details={data}></Tours>;
         })}
       </section>
-      <Footer />
     </React.Fragment>
   );
 };

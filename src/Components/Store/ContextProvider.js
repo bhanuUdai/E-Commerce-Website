@@ -3,8 +3,9 @@ import CartContext from "./cart-context";
 const ContextProvider = (prop) => {
   const [cartItem, setCartItem] = useState([]);
   const [getProductDetails,setProductDetails]=useState('')
-
-
+  let storedToken=localStorage.getItem("idToken")
+  const[token,setToken]=useState(storedToken)
+  let userLogin=false
   const addToCartHAndler = (item) => {
     console.log(item);
 
@@ -62,6 +63,26 @@ const productDetailsHandler=(data)=>
 
 console.log(getProductDetails,"getting.....")
 
+const addingTokenHandler=(tkn)=>
+{
+  setToken(tkn)
+  localStorage.setItem("idToken",tkn)
+}
+
+const removingTokenHandler=()=>
+{
+  setToken(null)
+  localStorage.removeItem("idToken")
+}
+
+if(token)
+{
+  userLogin=true
+}
+else{
+  userLogin=false
+}
+
 
   return (
     <CartContext.Provider
@@ -71,7 +92,11 @@ console.log(getProductDetails,"getting.....")
         addToCart: addToCartHAndler,
         removeItem: removeCartHandler,
         productDetails:productDetailsHandler,
-        productDetailObj:getProductDetails
+        productDetailObj:getProductDetails,
+        tokenId:token,
+        addingToken:addingTokenHandler,
+        removingToken:removingTokenHandler,
+        userIsLogin:userLogin
       }}
     >
       {prop.children}

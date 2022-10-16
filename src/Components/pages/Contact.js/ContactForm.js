@@ -51,7 +51,7 @@ const ContactForm = () => {
         <input ref={enteredMail} type="email" id="mail" required></input>
         <label htmlFor="phone">Phone Number</label>
         <input ref={enteredNumber} type="number" id="phone"required></input>
-        <Button onClick={submitFormHandler} className={classes.button}>
+        <Button onClick={submitFormHandler} className={classes.buttonSub}>
           Submit
         </Button>
       </section>

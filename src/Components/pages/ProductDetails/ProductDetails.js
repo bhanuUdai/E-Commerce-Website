@@ -1,6 +1,4 @@
 import React, { useContext } from "react";
-import Header from "../../Layout/Header";
-import Footer from "../../Layout/Footer";
 // import { useParams, useLocation } from "react-router-dom";
 import classes from "./ProductDetails.module.css";
 import CartContext from "../../Store/cart-context";
@@ -29,7 +27,6 @@ console.log(cartctx.productDetailObj)
 
   return (
     <React.Fragment>
-        <Header/>
          <section className={classes.section}>
             <div>
       <h1>{product.title}</h1>
@@ -50,7 +47,6 @@ console.log(cartctx.productDetailObj)
         <img key={Math.random()} className={classes.image} src={obj.url} alt="images" />
       ))}
     </section>
-    <Footer/>
     </React.Fragment>
    
   );
