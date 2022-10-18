@@ -1,102 +1,208 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CartContext from "./cart-context";
+import axios from "axios";
 const ContextProvider = (prop) => {
   const [cartItem, setCartItem] = useState([]);
-  const [getProductDetails,setProductDetails]=useState('')
-  let storedToken=localStorage.getItem("idToken")
-  const[token,setToken]=useState(storedToken)
-  let userLogin=false
-  const addToCartHAndler = (item) => {
-    console.log(item);
+  const [getProductDetails, setProductDetails] = useState("");
+  const [emailID, setEmailID] = useState();
+  const [switchCart, setSwitchCart] = useState(false);
+
+  let userMailFinal;
+  if (emailID) {
+    localStorage.setItem("email", JSON.stringify(emailID));
+  }
+  let getStoreMail = localStorage.getItem("email");
+  if (getStoreMail) {
+    let getMail = JSON.parse(getStoreMail);
+    let userMail_ = getMail.replace(".", "");
+    userMailFinal = userMail_.replace("@", "");
+  }
+
+  console.log(userMailFinal);
+
+  useEffect(() => {
+    console.log(userMailFinal);
+
+
+    const onLoad=async ()=>
+    {
+     const res=  await axios.get( `https://crudcrud.com/api/1632a6006c9e4f3fa92f0a15e79411f4/${userMailFinal}`)
+
+      try{
+        let getData = res.data;
+        console.log(getData);
+        setCartItem(getData);
+      }
+      catch(err)
+      {
+        console.log(err)
+      }
+    }
+    
+    onLoad()
+
+  }, [switchCart]);
+
+  let storedToken = localStorage.getItem("idToken");
+  const [token, setToken] = useState(storedToken);
+  let userLogin = false;
+
+  // console.log(getStoreMail);
+
+  const addToCartHAndler = async (item) => {
+    // console.log(userMailFinal);
 
     let hasItem = false;
     let cartArr = [...cartItem];
-
+    let objId;
+    let objQuantity;
+    let objItem;
     cartArr.forEach((data, index) => {
       if (data.title === item.title) {
         cartArr[index].quantity = Number(cartArr[index].quantity) + 1;
         hasItem = true;
+        // console.log(cartArr[index].id);
+        objQuantity = cartArr[index].quantity;
+        if (cartArr[index].id) {
+          objId = cartArr[index].id;
+        } 
+        if(cartArr[index]._id) {
+          objId = cartArr[index]._id;
+        }
       }
     });
 
     if (hasItem === true) {
+     
+      objItem = { ...item, quantity: objQuantity };
+       await axios.put(
+        `https://crudcrud.com/api/1632a6006c9e4f3fa92f0a15e79411f4/${userMailFinal}/${objId}`,
+        objItem
+      );
       setCartItem(cartArr);
-    } else {
-      setCartItem([...cartItem, item]);
+      console.log("PUT REQUEST");
+    } 
+    else {
+      const res = await axios.post(
+        `https://crudcrud.com/api/1632a6006c9e4f3fa92f0a15e79411f4/${userMailFinal}`,
+        item
+      );
+      console.log("POST REQUEST");
+
+      let id = res.data._id;
+      let item_ = { ...item, id: id };
+      setCartItem([...cartItem, item_]);
     }
   };
   console.log(cartItem);
 
-  const removeCartHandler=(id)=>
-  {
-    let arr=[...cartItem]
+  const removeCartHandler = async (id) => {
+    let arr = [...cartItem];
+    let objId;
+    let objQuantity;
+    let objItem;
+    let item;
+    let hasQuantity = false;
 
-    arr.forEach((data,index)=>
-    {
-        if(data.title===id)
-        {
-            arr[index].quantity=Number(arr[index].quantity)-1;
+    arr.forEach((data, index) => {
+      if (data.title === id) {
+        arr[index].quantity = Number(arr[index].quantity) - 1;
+        item = arr[index];
+        if (arr[index].id) {
+          objId = arr[index].id;
+        } else {
+          objId = arr[index]._id;
         }
 
-        if(arr[index].quantity===0)
-        {
-            arr.splice(index,1)
-        }
+        console.log(arr[index]);
+        objQuantity = arr[index].quantity;
 
-        setCartItem(arr)
-    })
+        hasQuantity = true;
+      }
 
+      if (arr[index].quantity === 0) {
+        arr.splice(index, 1);
+        hasQuantity = false;
+      }
+
+      console.log(arr);
+      setCartItem(arr);
+    });
+
+    if (hasQuantity) {
+      objItem = {
+        title: item.title,
+        price: item.price,
+        imageUrl: item.imageUrl,
+        quantity: objQuantity,
+      };
+
+      console.log(objItem, objId);
+      await axios.put(
+        `https://crudcrud.com/api/1632a6006c9e4f3fa92f0a15e79411f4/${userMailFinal}/${objId}`,
+        objItem
+      );
+    } else {
+      await axios.delete(
+        `https://crudcrud.com/api/1632a6006c9e4f3fa92f0a15e79411f4/${userMailFinal}/${objId}`
+      );
+    }
+  };
+
+  const amount = cartItem.reduce((netamt, amt) => {
+    return netamt + amt.price * amt.quantity;
+  }, 0);
+
+  const productDetailsHandler = (data) => {
+    // console.log(data);
+    setProductDetails(data);
+  };
+
+  // console.log(getProductDetails, "getting.....");
+
+  const addingTokenHandler = (tkn) => {
+    setToken(tkn);
+    localStorage.setItem("idToken", tkn);
+  };
+
+  const removingTokenHandler = () => {
+    setToken(null);
+    localStorage.removeItem("idToken");
+    localStorage.removeItem("email");
+  };
+
+  if (token) {
+    userLogin = true;
+  } else {
+    userLogin = false;
   }
 
-  const amount=cartItem.reduce((netamt,amt)=>
-  {
-    return netamt+amt.price*amt.quantity
-  },0)
+  const getEmailIdHandler = (mailID) => {
+    setEmailID(mailID);
+  };
 
+  console.log(emailID);
 
-const productDetailsHandler=(data)=>
-{
-  console.log(data)
-   setProductDetails(data)
- 
-}
-
-console.log(getProductDetails,"getting.....")
-
-const addingTokenHandler=(tkn)=>
-{
-  setToken(tkn)
-  localStorage.setItem("idToken",tkn)
-}
-
-const removingTokenHandler=()=>
-{
-  setToken(null)
-  localStorage.removeItem("idToken")
-}
-
-if(token)
-{
-  userLogin=true
-}
-else{
-  userLogin=false
-}
-
+  const switchCartonClickHandler = () => {
+    setSwitchCart(!switchCart);
+  };
 
   return (
     <CartContext.Provider
       value={{
         items: cartItem,
-        totalAmount:amount,
+        totalAmount: amount,
         addToCart: addToCartHAndler,
         removeItem: removeCartHandler,
-        productDetails:productDetailsHandler,
-        productDetailObj:getProductDetails,
-        tokenId:token,
-        addingToken:addingTokenHandler,
-        removingToken:removingTokenHandler,
-        userIsLogin:userLogin
+        productDetails: productDetailsHandler,
+        productDetailObj: getProductDetails,
+        tokenId: token,
+        addingToken: addingTokenHandler,
+        removingToken: removingTokenHandler,
+        userIsLogin: userLogin,
+        getEmailId: getEmailIdHandler,
+        userEmail: emailID,
+        switchCartonClick: switchCartonClickHandler,
       }}
     >
       {prop.children}

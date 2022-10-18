@@ -10,6 +10,7 @@ const Header = (prop) => {
   const cartctx=useContext(CartContext)
   const cartHandler = () => {
     prop.openCart();
+    cartctx.switchCartonClick()
   };
 
   const location = useLocation();

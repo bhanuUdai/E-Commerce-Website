@@ -16,11 +16,12 @@ const AuthForm =()=>
     {
         event.preventDefault()
         setIslogin(!isLogin)
+        
     }
 
     const submitHandler=async()=>
     {
-
+       
         const enteredMail=enteredMailRef.current.value;
         const enteredPass=enteredPasswordRef.current.value
         setSendingRqst(true)
@@ -38,6 +39,8 @@ const AuthForm =()=>
             try{
                 if(res.ok)
                 {
+                    
+                    cartctx.getEmailId(enteredMail)
                     let data=await res.json()
                     cartctx.addingToken(data.idToken)
                     history.replace('/store')
