@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import  "./AvailableMusicAlbums.css";
 
 import MusicAlbums from "./MusicAlbums";
+import CartContext from "../Store/cart-context";
+import Loading from "../UI/Loading";
 const AvailableMusicAlbums = (prop) => {
 
   const productsArr = [
@@ -42,17 +44,20 @@ const AvailableMusicAlbums = (prop) => {
     },
   ];
 
+const cartctx=useContext(CartContext)
 
-
-  return (
+  return (<React.Fragment>
     <main  className="music-content">
        <section className='music container'>
             <h2>Music</h2>
         </section>
-    {productsArr.map((item) => {
+   { cartctx.validatingAddCart && productsArr.map((item) => {
       return <MusicAlbums key={item.title} items={item}></MusicAlbums>;
     })}
+  
   </main>
+  {! cartctx.validatingAddCart &&<Loading/>}
+  </React.Fragment>
   );
 
   // return(<div className={classes.album}>

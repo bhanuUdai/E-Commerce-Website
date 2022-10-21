@@ -31,8 +31,10 @@ const addProductDetailsToCtx=(data)=>{
       <div className=  {classes.prodDetails}>
         <span>$
         <span>{prop.items.price}</span>
+       
         </span>
         <Button onClick={sendToCart} className={classes.addButton}>ADD TO CART</Button>
+        
       </div>
       
     </div>
