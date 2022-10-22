@@ -6,11 +6,12 @@ const ContextProvider = (prop) => {
   const [getProductDetails, setProductDetails] = useState("");
   const [emailID, setEmailID] = useState();
   const [switchCart, setSwitchCart] = useState(false);
-  const [validateAddToCart,setValidateAddToCart]=useState(true)
+  const [validateAddToCart, setValidateAddToCart] = useState(true);
 
   let userMailFinal;
   if (emailID) {
     localStorage.setItem("email", JSON.stringify(emailID));
+    console.log("setting");
   }
   let getStoreMail = localStorage.getItem("email");
   if (getStoreMail) {
@@ -24,24 +25,21 @@ const ContextProvider = (prop) => {
   useEffect(() => {
     console.log(userMailFinal);
 
+    const onLoad = async () => {
+      const res = await axios.get(
+        `https://crudcrud.com/api/f55383ea743e4d1b9853b59d366958fe/${userMailFinal}`
+      );
 
-    const onLoad=async ()=>
-    {
-     const res=  await axios.get( `https://crudcrud.com/api/0728060e9e4f4830bc41d6fb1b598380/${userMailFinal}`)
-
-      try{
+      try {
         let getData = res.data;
         console.log(getData);
         setCartItem(getData);
+      } catch (err) {
+        console.log(err);
       }
-      catch(err)
-      {
-        console.log(err)
-      }
-    }
-    
-    onLoad()
+    };
 
+    onLoad();
   }, [switchCart]);
 
   let storedToken = localStorage.getItem("idToken");
@@ -58,7 +56,7 @@ const ContextProvider = (prop) => {
     let objId;
     let objQuantity;
     let objItem;
-    setValidateAddToCart(false)
+    setValidateAddToCart(false);
     cartArr.forEach((data, index) => {
       if (data.title === item.title) {
         cartArr[index].quantity = Number(cartArr[index].quantity) + 1;
@@ -67,57 +65,47 @@ const ContextProvider = (prop) => {
         objQuantity = cartArr[index].quantity;
         if (cartArr[index].id) {
           objId = cartArr[index].id;
-        } 
-        if(cartArr[index]._id) {
+        }
+        if (cartArr[index]._id) {
           objId = cartArr[index]._id;
         }
       }
     });
 
     if (hasItem === true) {
-     
       objItem = { ...item, quantity: objQuantity };
-     const res=  await axios.put(
-        `https://crudcrud.com/api/0728060e9e4f4830bc41d6fb1b598380/${userMailFinal}/${objId}`,
+      const res = await axios.put(
+        `https://crudcrud.com/api/f55383ea743e4d1b9853b59d366958fe/${userMailFinal}/${objId}`,
         objItem
       );
-      try{
-        if(res.statusText==='OK')
-        {
+      try {
+        if (res.statusText === "OK") {
           setCartItem(cartArr);
-          setValidateAddToCart(true)
+          setValidateAddToCart(true);
           console.log("PUT REQUEST", res);
         }
+      } catch (err) {
+        console.log("something went wrong");
+        setValidateAddToCart(true);
       }
-      catch(err)
-      {
-        console.log('something went wrong')
-        setValidateAddToCart(true)
-      }
-
-     
-    } 
-    else {
-      setValidateAddToCart(false)
+    } else {
+      setValidateAddToCart(false);
       const res = await axios.post(
-        `https://crudcrud.com/api/0728060e9e4f4830bc41d6fb1b598380/${userMailFinal}`,
+        `https://crudcrud.com/api/f55383ea743e4d1b9853b59d366958fe/${userMailFinal}`,
         item
       );
 
-      try{
-        console.log("POST",res.status)
-        if(res.status===201)
-        {
+      try {
+        console.log("POST", res.status);
+        if (res.status === 201) {
           let id = res.data._id;
           let item_ = { ...item, id: id };
           setCartItem([...cartItem, item_]);
-          setValidateAddToCart(true)
+          setValidateAddToCart(true);
         }
-      }
-      catch(err)
-      {
+      } catch (err) {
         console.log("something wrong in post reqst");
-        setValidateAddToCart(true)
+        setValidateAddToCart(true);
       }
     }
   };
@@ -166,12 +154,12 @@ const ContextProvider = (prop) => {
 
       console.log(objItem, objId);
       await axios.put(
-        `https://crudcrud.com/api/0728060e9e4f4830bc41d6fb1b598380/${userMailFinal}/${objId}`,
+        `https://crudcrud.com/api/f55383ea743e4d1b9853b59d366958fe/${userMailFinal}/${objId}`,
         objItem
       );
     } else {
       await axios.delete(
-        `https://crudcrud.com/api/0728060e9e4f4830bc41d6fb1b598380/${userMailFinal}/${objId}`
+        `https://crudcrud.com/api/f55383ea743e4d1b9853b59d366958fe/${userMailFinal}/${objId}`
       );
     }
   };
@@ -194,8 +182,9 @@ const ContextProvider = (prop) => {
 
   const removingTokenHandler = () => {
     setToken(null);
-    localStorage.removeItem("idToken");
     localStorage.removeItem("email");
+    localStorage.removeItem("idToken");
+    setEmailID(null);
   };
 
   if (token) {
@@ -230,7 +219,7 @@ const ContextProvider = (prop) => {
         getEmailId: getEmailIdHandler,
         userEmail: emailID,
         switchCartonClick: switchCartonClickHandler,
-        validatingAddCart:validateAddToCart
+        validatingAddCart: validateAddToCart,
       }}
     >
       {prop.children}
