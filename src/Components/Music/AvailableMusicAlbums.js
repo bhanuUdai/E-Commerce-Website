@@ -56,7 +56,7 @@ const cartctx=useContext(CartContext)
     })}
   
   </main>
-  {! cartctx.validatingAddCart &&<Loading/>}
+  {! cartctx.validatingAddCart &&<Loading>Adding...</Loading>}
   </React.Fragment>
   );
 

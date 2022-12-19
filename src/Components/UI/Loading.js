@@ -1,8 +1,8 @@
 import React from "react";
 import classes from './Loading.module.css'
-const Loading=()=>
+const Loading=(prop)=>
 {
-    return(<p className={classes.para} >Adding..</p>)
+    return(<p className={classes.para} >{prop.children}</p>)
 }
 
 export default Loading

@@ -27,7 +27,7 @@ const ContextProvider = (prop) => {
 
     const onLoad = async () => {
       const res = await axios.get(
-        `https://crudcrud.com/api/f55383ea743e4d1b9853b59d366958fe/${userMailFinal}`
+        `https://crudcrud.com/api/a39081dfca794eb7a2710beef8de99bf/${userMailFinal}`
       );
 
       try {
@@ -40,7 +40,7 @@ const ContextProvider = (prop) => {
     };
 
     onLoad();
-  }, [switchCart]);
+  }, [switchCart,userMailFinal]);
 
   let storedToken = localStorage.getItem("idToken");
   const [token, setToken] = useState(storedToken);
@@ -50,7 +50,7 @@ const ContextProvider = (prop) => {
 
   const addToCartHAndler = async (item) => {
     // console.log(userMailFinal);
-
+    try{
     let hasItem = false;
     let cartArr = [...cartItem];
     let objId;
@@ -72,10 +72,13 @@ const ContextProvider = (prop) => {
       }
     });
 
+    
+
+    
     if (hasItem === true) {
       objItem = { ...item, quantity: objQuantity };
       const res = await axios.put(
-        `https://crudcrud.com/api/f55383ea743e4d1b9853b59d366958fe/${userMailFinal}/${objId}`,
+        `https://crudcrud.com/api/a39081dfca794eb7a2710beef8de99bf/${userMailFinal}/${objId}`,
         objItem
       );
       try {
@@ -91,12 +94,12 @@ const ContextProvider = (prop) => {
     } else {
       setValidateAddToCart(false);
       const res = await axios.post(
-        `https://crudcrud.com/api/f55383ea743e4d1b9853b59d366958fe/${userMailFinal}`,
+        `https://crudcrud.com/api/a39081dfca794eb7a2710beef8de99bf/${userMailFinal}`,
         item
       );
 
+      console.log("POST", res);
       try {
-        console.log("POST", res.status);
         if (res.status === 201) {
           let id = res.data._id;
           let item_ = { ...item, id: id };
@@ -104,14 +107,20 @@ const ContextProvider = (prop) => {
           setValidateAddToCart(true);
         }
       } catch (err) {
-        console.log("something wrong in post reqst");
-        setValidateAddToCart(true);
+        console.log(err);
       }
     }
+  }
+  catch(err)
+  {
+    alert(err.message)
+    setValidateAddToCart(true);
+  }
   };
-  console.log(cartItem);
+  // console.log(cartItem);
 
   const removeCartHandler = async (id) => {
+    try{
     let arr = [...cartItem];
     let objId;
     let objQuantity;
@@ -154,14 +163,19 @@ const ContextProvider = (prop) => {
 
       console.log(objItem, objId);
       await axios.put(
-        `https://crudcrud.com/api/f55383ea743e4d1b9853b59d366958fe/${userMailFinal}/${objId}`,
+        `https://crudcrud.com/api/a39081dfca794eb7a2710beef8de99bf/${userMailFinal}/${objId}`,
         objItem
       );
     } else {
       await axios.delete(
-        `https://crudcrud.com/api/f55383ea743e4d1b9853b59d366958fe/${userMailFinal}/${objId}`
+        `https://crudcrud.com/api/a39081dfca794eb7a2710beef8de99bf/${userMailFinal}/${objId}`
       );
     }
+  }
+  catch(err)
+  {
+    alert(err.message)
+  }
   };
 
   const amount = cartItem.reduce((netamt, amt) => {
