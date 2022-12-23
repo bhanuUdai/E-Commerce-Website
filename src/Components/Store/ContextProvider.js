@@ -27,7 +27,7 @@ const ContextProvider = (prop) => {
 
     const onLoad = async () => {
       const res = await axios.get(
-        `https://crudcrud.com/api/a39081dfca794eb7a2710beef8de99bf/${userMailFinal}`
+        `https://crudcrud.com/api/c97a8f42cbfa4cff9994c881d8f55497/${userMailFinal}`
       );
 
       try {
@@ -78,7 +78,7 @@ const ContextProvider = (prop) => {
     if (hasItem === true) {
       objItem = { ...item, quantity: objQuantity };
       const res = await axios.put(
-        `https://crudcrud.com/api/a39081dfca794eb7a2710beef8de99bf/${userMailFinal}/${objId}`,
+        `https://crudcrud.com/api/c97a8f42cbfa4cff9994c881d8f55497/${userMailFinal}/${objId}`,
         objItem
       );
       try {
@@ -94,7 +94,7 @@ const ContextProvider = (prop) => {
     } else {
       setValidateAddToCart(false);
       const res = await axios.post(
-        `https://crudcrud.com/api/a39081dfca794eb7a2710beef8de99bf/${userMailFinal}`,
+        `https://crudcrud.com/api/c97a8f42cbfa4cff9994c881d8f55497/${userMailFinal}`,
         item
       );
 
@@ -163,12 +163,12 @@ const ContextProvider = (prop) => {
 
       console.log(objItem, objId);
       await axios.put(
-        `https://crudcrud.com/api/a39081dfca794eb7a2710beef8de99bf/${userMailFinal}/${objId}`,
+        `https://crudcrud.com/api/c97a8f42cbfa4cff9994c881d8f55497/${userMailFinal}/${objId}`,
         objItem
       );
     } else {
       await axios.delete(
-        `https://crudcrud.com/api/a39081dfca794eb7a2710beef8de99bf/${userMailFinal}/${objId}`
+        `https://crudcrud.com/api/c97a8f42cbfa4cff9994c881d8f55497/${userMailFinal}/${objId}`
       );
     }
   }
